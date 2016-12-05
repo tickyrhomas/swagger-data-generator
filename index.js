@@ -68,16 +68,14 @@ function dereferencedSuccess(dereferencedApi) {
 
   forEach(dereferencedApi.definitions, function generateData(definition, name) {
     try {
-        generatedSwaggerData[name] = []
-        
-        for (var i=0; i<howMany; i++) {
-          generatedSwaggerData[name].push( jsf(definition));
-        }
-        
+      generatedSwaggerData[name] = []
+      
+      for (var i=0; i<howMany; i++) {
+        generatedSwaggerData[name].push( jsf(definition));
       }
-    } catch (err) {
+    }catch (err) {
       console.log(err);
-    }
+    };
   });
 
   saveOutput(generatedSwaggerData);
