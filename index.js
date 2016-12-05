@@ -14,8 +14,6 @@ var requireAllProperties = require('./lib/utils/helpers.js').requireAllPropertie
 var passedUserArguments = process.argv.slice(2);
 var swaggerFilePath = passedUserArguments[0];
 var outputFilePath = passedUserArguments[1];
-var howMany = passedUserArguments[3] || 1;
-
 
 if (!swaggerFilePath || !outputFilePath) {
   console.log('command: sdg <path-to-file-input> <path-to-file-output>');
@@ -67,15 +65,17 @@ function dereferencedSuccess(dereferencedApi) {
   var generatedSwaggerData = {};
 
   forEach(dereferencedApi.definitions, function generateData(definition, name) {
-    try {
-      generatedSwaggerData[name] = []
-      
-      for (var i=0; i<howMany; i++) {
+     try {
+      if (generatedSwaggerData[name] && generatedSwaggerData[name].length > 0) {
+        generatedSwaggerData[name].push(jsf(definition));
+      } else{
+        generatedSwaggerData[name] = []
+        generatedSwaggerData[name].push( jsf(definition));
         generatedSwaggerData[name].push( jsf(definition));
       }
-    }catch (err) {
+    } catch (err) {
       console.log(err);
-    };
+    }
   });
 
   saveOutput(generatedSwaggerData);
